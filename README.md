@@ -1,26 +1,51 @@
-# To run on AMD HPC fund hardware:
+# Running on AMD HPC Fund Hardware
 
-## Build: 
-hipcc <FILE_NAME>     -I/opt/rocm-7.1.0/include     -L/opt/rocm-7.1.0/lib     -lamdhip64     -I/opt/ohpc/pub/mpi/openmpi4-gnu12/4.1.8/include     -L/opt/ohpc/pub/mpi/openmpi4-gnu12/4.1.8/lib     -lmpi     -lmpi_cxx     -o <EXECUTABLE_NAME>
+## Build Instructions
 
-Ex: hipcc HW2_multipleGPU.cpp     -I/opt/rocm-7.1.0/include     -L/opt/rocm-7.1.0/lib     -lamdhip64     -I/opt/ohpc/pub/mpi/openmpi4-gnu12/4.1.8/include     -L/opt/ohpc/pub/mpi/openmpi4-gnu12/4.1.8/lib     -lmpi     -lmpi_cxx     -o HW2_mGPU
-## Run:
-mpirun -np 2 ./<EXECUTABLE_NAME>
+Compile the program using `hipcc` with ROCm and OpenMPI libraries:
 
-Examples: 
+```bash
+hipcc <FILE_NAME> \
+  -I/opt/rocm-7.1.0/include \
+  -L/opt/rocm-7.1.0/lib \
+  -lamdhip64 \
+  -I/opt/ohpc/pub/mpi/openmpi4-gnu12/4.1.8/include \
+  -L/opt/ohpc/pub/mpi/openmpi4-gnu12/4.1.8/lib \
+  -lmpi \
+  -lmpi_cxx \
+  -o <EXECUTABLE_NAME>
+
+```
+
+## Run Instructions
+
+Use mpirun to launch the executable with the desired number of MPI processes:
+
+```bash
+mpirun -np <NUM_PROCESSES> ./<EXECUTABLE_NAME>
+```
+
+### Examples:
+```bash
 mpirun -np 2 ./HW2_mGPU
-
 ./cpu 1024
-
 mpirun -np 4 ./main 50
-
 ./gpu 1024
-
 mpirun -np 4 ./multipleGPUMatMul 50
 
-# To run all and get the performance in result.csv:
+```
 
+## Running All Experiments and Collecting Performance Results
+
+To run all configurations and generate performance results in results.csv
+
+```bash
 chmod +x run_all.sh
-
 ./run_all.sh
+```
 
+# Notes
+
+The final hybrid MPI + GPU + SUMMA implementation is located in main.cpp.
+
+Ensure ROCm 7.1.0 and OpenMPI 4.1.8 paths are correctly configured.
