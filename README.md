@@ -44,6 +44,11 @@ chmod +x run_all.sh
 ./run_all.sh
 ```
 
+## Plotting graphs (reliant on results.csv)
+```bash
+python plot.py
+```
+
 # Notes
 
 The final hybrid MPI + GPU + SUMMA implementation is located in main.cpp.
